@@ -9,5 +9,8 @@ class Settings:
         # Screen settings
         self.screen_width = 1024
         self.screen_height  = 600
-        self.bg_color = (230, 230, 230)
+        self.bg_color = (0, 0, 0)
         pygame.display.set_caption("Alien Invasion")
+
+        # Ship settings
+        self.ship_speed = 1.5
