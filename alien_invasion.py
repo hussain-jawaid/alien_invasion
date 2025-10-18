@@ -83,7 +83,8 @@ class AlienInvasion:
     
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
-        self.screen.fill(self.settings.bg_color)
+        # self.screen.fill(self.settings.bg_color)
+        self.screen.blit(self.settings.background_img, (0, 0))
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.ship.blitme()
