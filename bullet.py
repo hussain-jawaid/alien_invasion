@@ -13,8 +13,8 @@ class Bullet(Sprite):
         self.color = self.settings.bullet_color
 
         # Create a bullet rect at (0, 0) and then set correct position.
-        self.laser = pygame.image.load("images/png/Lasers/laserGreen11.png")
-        self.rect = self.laser.get_rect()
+        self.image = pygame.image.load("images/png/Lasers/laserGreen13.png")
+        self.rect = self.image.get_rect()
         self.rect.midtop = ai_game.ship.rect.midtop
 
         # Store the bullet's position as a float.
@@ -26,7 +26,3 @@ class Bullet(Sprite):
         self.y -= self.settings.bullet_speed
         # Update the rect position.
         self.rect.y = self.y
-    
-    def draw_bullet(self):
-        """Draw the bullet to the screen."""
-        self.screen.blit(self.laser, self.rect)
