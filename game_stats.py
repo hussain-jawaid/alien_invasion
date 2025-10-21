@@ -6,8 +6,13 @@ class GameStats:
         self.settings = ai_game.settings
         self.reset_stats()
 
-        # High score should never be reset.
-        self.high_score = 0
+        # Read the all-time High score from a file then assign it to high_score attribute.
+        try:
+            with open("all-time-high-score.txt", "r") as file:
+                high_score = file.readline()
+                self.high_score = int(high_score.strip())
+        except Exception:
+            self.high_score = 0
 
     def reset_stats(self):
         """Initialize statistics that can change during the game."""

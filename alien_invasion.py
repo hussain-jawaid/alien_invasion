@@ -54,7 +54,8 @@ class AlienInvasion:
         """Respond to keypresses and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                # Handle window close event
+                # Before exit store high score in a file.
+                self._store_high_score_in_file()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)  
@@ -95,6 +96,7 @@ class AlienInvasion:
         elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
             self.ship.moving_down = True
         elif event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
+            self._store_high_score_in_file()
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -109,6 +111,20 @@ class AlienInvasion:
             self.ship.moving_up = False     
         elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
             self.ship.moving_down = False 
+
+    def _store_high_score_in_file(self):
+        """Store the all-time high score in a file."""
+        with open("all-time-high-score.txt", "r") as file:
+            try:
+                high_score = file.readline()
+                high_score = int(high_score.strip())
+                if high_score < self.stats.high_score:
+                    with open("all-time-high-score.txt", "w") as file:
+                        file.write(str(self.stats.high_score))
+            except Exception:
+                with open("all-time-high-score.txt", "w") as file:
+                    file.write(str(self.stats.high_score))
+        
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
