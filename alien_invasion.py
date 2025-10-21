@@ -6,6 +6,7 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 
 
@@ -19,8 +20,12 @@ class AlienInvasion:
         self.settings = Settings()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
-        # Create an instance to store game statistics.
-        self.stats = GameStats(self)      
+        
+        # Create an instance to store game statistics,
+        # and create a scoreboard.
+        self.stats = GameStats(self)     
+        self.sb = Scoreboard(self)
+
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
@@ -66,6 +71,7 @@ class AlienInvasion:
             # Reset the game statistics
             self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
+            self.sb.prep_score()
             self.game_active = True
             # Get rid of any remaining bullets and aliens.
             self.bullets.empty()
@@ -107,6 +113,7 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            # self.settings.bullet_shoot.play()
     
     def _update_bullets(self):
         """Update position of bullets and get rid of old bullets."""
@@ -126,6 +133,12 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(
            self.bullets, self.aliens, True, True
         )
+
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
+            self.sb.check_high_score()
 
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
@@ -216,6 +229,9 @@ class AlienInvasion:
         self.bullets.draw(self.screen)
         self.ship.blitme()
         self.aliens.draw(self.screen)
+
+        # Draw the score information.
+        self.sb.show_score()
 
         # Draw the play button if the game is inactive.
         if not self.game_active:
