@@ -131,7 +131,8 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
-            # self.settings.bullet_shoot.play()
+            # Play sound.
+            self.settings.bullet_shoot.play()
     
     def _update_bullets(self):
         """Update position of bullets and get rid of old bullets."""
@@ -196,6 +197,7 @@ class AlienInvasion:
             # Pause.
             sleep(0.5)
         else:
+            self.settings.ship_lose.play()
             self.game_active = False
             pygame.mouse.set_visible(True)
     

@@ -56,3 +56,4 @@ class Settings:
     def load_sounds(self):
         """Load the sounds for the game elements."""
         self.bullet_shoot = pygame.mixer.Sound("Bonus/sfx_laser1.ogg")
+        self.ship_lose = pygame.mixer.Sound("Bonus/sfx_lose.ogg")
